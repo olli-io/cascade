@@ -1,0 +1,16 @@
+#nav-bar {
+  padding-block-start: 0px !important;
+
+  border: none !important;
+  box-shadow: none !important;
+}
+
+#urlbar,
+#urlbar * {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+#urlbar-background {
+  border: transparent !important;
+}
