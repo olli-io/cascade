@@ -156,6 +156,9 @@
   background-color: var(--uc-highlight-colour) !important;
   outline: none !important;
 }
+.tabbrowser-tab[selected] .tab-label {
+  color: orange !important;
+}
 .tab-background {
   margin: 0px !important;
   border-radius: 0px !important;
