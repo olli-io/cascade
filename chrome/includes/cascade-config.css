@@ -85,7 +85,7 @@
    *  URL Bar placement. Change this variable to adapt
    *  to this when necessary.
    */
-  --uc-urlbar-top-spacing: 1px;
+  --uc-urlbar-top-spacing: 1.5px;
 }
 
 /* Disable the Navigation Buttons */
@@ -143,7 +143,7 @@
    *  show: -moz-inline-block
    *  hide: none
    */
-  --show-tab-close-button-hover: none;
+  --show-tab-close-button-hover: -moz-inline-block;
 
   /*  Hide the all Tabs button from the Tab Bar
    *  possible values:

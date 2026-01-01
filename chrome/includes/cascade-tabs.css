@@ -23,6 +23,11 @@
   outline-color: var(--toolbarseparator-color) !important;
 }
 
+/* Make tab bar background match URL bar */
+#TabsToolbar {
+  background-color: var(--toolbar-bgcolor) !important;
+}
+
 /* tab close button options */
 .tabbrowser-tab:not([pinned]) .tab-close-button {
   display: var(--show-tab-close-button) !important;
@@ -150,6 +155,9 @@
 .tabbrowser-tab[selected] .tab-background {
   background-color: var(--uc-highlight-colour) !important;
   outline: none !important;
+}
+.tabbrowser-tab[selected] .tab-label {
+  color: orange !important;
 }
 .tab-background {
   margin: 0px !important;
