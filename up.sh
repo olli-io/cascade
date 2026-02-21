@@ -5,15 +5,15 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     QUIT_FIREFOX="osascript -e 'tell application \"Firefox\" to quit' 2>/dev/null || killall Firefox 2>/dev/null || true"
     START_FIREFOX="open -a Firefox"
 elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    # Linux (Ubuntu, etc.)
+    # Linux
     # Check multiple possible Firefox profile locations
-    # 1. Standard location: ~/.mozilla/firefox/
+    # 1. Standard/pacman location: ~/.mozilla/firefox/
     # 2. Snap location: ~/snap/firefox/common/.mozilla/firefox/
     # 3. Flatpak location: ~/.var/app/org.mozilla.firefox/.mozilla/firefox/
-    
+
     FIREFOX_BASE_DIRS=(
-        "$HOME/snap/firefox/common/.mozilla/firefox"
         "$HOME/.mozilla/firefox"
+        "$HOME/snap/firefox/common/.mozilla/firefox"
         "$HOME/.var/app/org.mozilla.firefox/.mozilla/firefox"
     )
     
@@ -33,29 +33,13 @@ elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
         # Find profile with Default=1, then get its Path
         # Use awk to parse profiles.ini properly
         DEFAULT_PROFILE=$(awk '
-            BEGIN { 
-                profile_path = ""
-                is_default = 0
+            /^\[Profile/ {
+                if (path != "" && found) { printed = 1; print path; exit }
+                path = ""; found = 0
             }
-            /^\[Profile/ { 
-                if (profile_path != "" && is_default == 1) {
-                    print profile_path
-                    exit
-                }
-                profile_path = ""
-                is_default = 0
-            }
-            /^Path=/ { 
-                profile_path = substr($0, 6)
-            }
-            /^Default=1/ { 
-                is_default = 1
-            }
-            END {
-                if (profile_path != "" && is_default == 1) {
-                    print profile_path
-                }
-            }
+            /^Path=/ { path = substr($0, 6) }
+            /^Default=1/ { found = 1 }
+            END { if (!printed && path != "" && found) print path }
         ' "$PROFILES_INI")
         
         # If no default found, use first profile
@@ -105,7 +89,7 @@ if [ -z "$PROFILE_DIR" ] || [ ! -d "$PROFILE_DIR" ]; then
         for base_dir in "$HOME/.mozilla/firefox" "$HOME/snap/firefox/common/.mozilla/firefox" "$HOME/.var/app/org.mozilla.firefox/.mozilla/firefox"; do
             if [ -d "$base_dir" ]; then
                 echo "  In $base_dir:"
-                ls -d "$base_dir"/*/ 2>/dev/null | sed 's|.*/||' | sed 's|^|    |' || echo "    (none found)"
+                ls -1 "$base_dir" 2>/dev/null | sed 's|^|    |' || echo "    (none found)"
             fi
         done
     fi

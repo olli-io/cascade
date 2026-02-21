@@ -35,6 +35,9 @@
 .tabbrowser-tab:not([pinned]):hover .tab-close-button {
   display: var(--show-tab-close-button-hover) !important;
 }
+.tabbrowser-tab[selected]:not([pinned]) .tab-close-button {
+  display: var(--show-tab-close-button-active) !important;
+}
 
 /* adaptive tab width */
 .tabbrowser-tab[selected][fadein]:not([pinned]):not(tab-group[collapsed] .tabbrowser-tab) {
@@ -157,7 +160,7 @@
   outline: none !important;
 }
 .tabbrowser-tab[selected] .tab-label {
-  color: orange !important;
+  color: #fbf1c7 !important;
 }
 .tab-background {
   margin: 0px !important;
